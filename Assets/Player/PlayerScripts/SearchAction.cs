@@ -4,15 +4,24 @@ using UnityEngine;
 
 public class SearchAction : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    Rigidbody2D rigid;
+
+    float h;
+    float v;
+
+
+    private void Update()
     {
-        
+        h = Input.GetAxisRaw("Horizontal");
+        v = Input.GetAxisRaw("Vertical");
+    }
+    private void Awake()
+    {
+        rigid = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        rigid.velocity = new Vector2 (h, v);
     }
 }

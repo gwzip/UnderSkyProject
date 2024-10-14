@@ -21,14 +21,15 @@ public class Sword_Attack : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    void OnAttack(InputValue value)
+    void OnAttack(InputAction.CallbackContext context)
     {
-        if (value.isPressed && canAttack)
+        if (context.performed && canAttack)
         {
             Debug.Log("Attack!!!");
             Attack();
         }
     }
+
 
     void Attack()
     {
