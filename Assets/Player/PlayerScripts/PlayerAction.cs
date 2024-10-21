@@ -53,7 +53,7 @@ public class PlayerAction : MonoBehaviour
 
         if (rayHit.collider != null)
         {
-            scanObject = rayHit.collider.gameObject;    //RayCast된 오브젝트를 변수로 저장
+            scanObject = rayHit.collider.gameObject;
         }
         else
             scanObject = null;
