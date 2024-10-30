@@ -4,7 +4,7 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Sword
+  - Border
   layers:
   - Default
   - TransparentFX
@@ -14,18 +14,18 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Weapon
+  - Projectile
+  - Entity
+  - Player
+  - Collectable
+  - Solid
+  - Sword
+  - Boss
+  - BossAttack
+  - Holes
+  - Trap
+  - PlayerTrap
   - 
   - 
   - 
@@ -41,4 +41,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Foreground
+    uniqueID: 4244998989
     locked: 0

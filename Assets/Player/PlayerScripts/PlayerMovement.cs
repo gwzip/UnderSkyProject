@@ -15,10 +15,17 @@ public class PlayerMovement : MonoBehaviour
     private float dashCooldownTime;
     private Vector2 dashDirection;
     private Rigidbody2D rigid;
+    private SpriteRenderer spriteRenderer;
 
+    
+    public Sprite frontSprite;
+    public Sprite backSprite;   
+    public Sprite leftSprite; 
+    public Sprite rightSprite;  
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void FixedUpdate()
@@ -34,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 isDashing = false;
-                StartCooldown();  // 대쉬 종료 시 쿨다운 바로 시작
+                StartCooldown();
             }
         }
         else
@@ -51,14 +58,14 @@ public class PlayerMovement : MonoBehaviour
                 canDash = true;
             }
         }
-    }
 
+        UpdateSpriteDirection();  
+    }
 
     public void OnDash(InputValue value)
     {
         if (canDash && !isDashing && inputVec != Vector2.zero)
         {
-            Debug.Log("test");
             StartDash();
         }
     }
@@ -75,11 +82,32 @@ public class PlayerMovement : MonoBehaviour
     {
         dashCooldownTime = dashCooldown;
     }
+
     public void OnMove(InputValue value)
     {
         if (!isDashing)
         {
             inputVec = value.Get<Vector2>();
+        }
+    }
+
+    void UpdateSpriteDirection()
+    {
+        if (inputVec.y > 0)
+        {
+            spriteRenderer.sprite = backSprite;
+        }
+        else if (inputVec.y < 0) 
+        {
+            spriteRenderer.sprite = frontSprite;
+        }
+        else if (inputVec.x < 0)
+        {
+            spriteRenderer.sprite = leftSprite;
+        }
+        else if (inputVec.x > 0)
+        {
+            spriteRenderer.sprite = rightSprite;
         }
     }
 }

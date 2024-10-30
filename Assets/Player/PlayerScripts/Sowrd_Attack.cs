@@ -5,14 +5,14 @@ using UnityEngine.InputSystem;
 
 public class Sword_Attack : MonoBehaviour
 {
-    public float attackRange = 1f;       // 공격 범위
-    public float attackRadius = 0.5f;    // 공격 범위 반지름
-    public LayerMask enemyLayer;         // 적 레이어 지정
-    public int attackDamage = 10;        // 공격 데미지
-    public float attackCooldown = 0.5f;  // 공격 쿨다운 시간
-    private bool canAttack = true;       // 공격 가능 여부
+    public float attackRange = 0.5f;
+    public float attackRadius = 0.1f;    
+    public LayerMask enemyLayer; 
+    public int attackDamage = 10;
+    public float attackCooldown = 0.5f;
+    private bool canAttack = true;
 
-    private PlayerMovement playerMovement;  // PlayerMovement 스크립트 참조
+    private PlayerMovement playerMovement;
     private Animator animator;
 
     private void Awake()
@@ -20,38 +20,21 @@ public class Sword_Attack : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
     }
-
-    void OnAttack(InputAction.CallbackContext context)
+    void OnAttack(InputValue value)
     {
-        if (context.performed && canAttack)
+        if (canAttack && value.Get<float>() > 0)
         {
+            Vector2 attackDirection = playerMovement.inputVec;
+            Attack(attackDirection);
             Debug.Log("Attack!!!");
-            Attack();
         }
     }
 
-
-    void Attack()
+    void Attack(Vector2 attackDirection)
     {
-        Vector2 attackDirection = playerMovement.inputVec;  // 이동 방향을 기반으로 공격 방향 설정
-
         if (attackDirection != Vector2.zero)
         {
-            canAttack = false;  // 공격 중에는 추가 공격을 하지 않도록 설정
-
-            // 공격할 위치 계산 (현재 위치에서 공격 방향으로 일정 거리만큼 떨어진 곳)
-            Vector2 attackPosition = (Vector2)transform.position + attackDirection.normalized * attackRange;
-
-            // 범위 내의 적들을 검출 (원형 범위로 공격 범위를 설정)
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPosition, attackRadius, enemyLayer);
-
-            // 범위 내에 있는 모든 적들에게 데미지 주기
-            //foreach (Collider2D enemy in hitEnemies)
-            //{
-            //    enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
-            //}
-
-            // 공격 애니메이션 재생
+            canAttack = false;
             if (animator != null)
             {
                 if (attackDirection == Vector2.up)
@@ -71,20 +54,14 @@ public class Sword_Attack : MonoBehaviour
                     animator.Play("Attack_Right");
                 }
             }
-
-            // 일정 시간 후 다시 공격 가능하도록 설정
             StartCoroutine(AttackCooldown());
         }
     }
-
-    // 공격 쿨다운 시간 설정
     IEnumerator AttackCooldown()
     {
         yield return new WaitForSeconds(attackCooldown);
         canAttack = true;
     }
-
-    // 공격 범위 시각화를 위한 디버그용 함수
     private void OnDrawGizmosSelected()
     {
         if (playerMovement != null && playerMovement.inputVec != Vector2.zero)
