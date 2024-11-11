@@ -17,11 +17,14 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rigid;
     private SpriteRenderer spriteRenderer;
 
-    
     public Sprite frontSprite;
-    public Sprite backSprite;   
-    public Sprite leftSprite; 
-    public Sprite rightSprite;  
+    public Sprite backSprite;
+    public Sprite leftSprite;
+    public Sprite rightSprite;
+
+    // Reference to the object that should rotate with the player's direction
+    public Transform rotatingObject;
+
     private void Awake()
     {
         rigid = GetComponent<Rigidbody2D>();
@@ -59,7 +62,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        UpdateSpriteDirection();  
+        UpdateSpriteDirection();
     }
 
     public void OnDash(InputValue value)
@@ -93,21 +96,32 @@ public class PlayerMovement : MonoBehaviour
 
     void UpdateSpriteDirection()
     {
-        if (inputVec.y > 0)
+        if (inputVec != Vector2.zero)
         {
-            spriteRenderer.sprite = backSprite;
-        }
-        else if (inputVec.y < 0) 
-        {
-            spriteRenderer.sprite = frontSprite;
-        }
-        else if (inputVec.x < 0)
-        {
-            spriteRenderer.sprite = leftSprite;
-        }
-        else if (inputVec.x > 0)
-        {
-            spriteRenderer.sprite = rightSprite;
+            float angle = Mathf.Atan2(inputVec.y, inputVec.x) * Mathf.Rad2Deg;
+
+            if (angle >= -45f && angle < 45f)
+            {
+                spriteRenderer.sprite = rightSprite;
+            }
+            else if (angle >= 45f && angle < 135f)
+            {
+                spriteRenderer.sprite = backSprite;
+            }
+            else if (angle >= -135f && angle < -45f)
+            {
+                spriteRenderer.sprite = frontSprite;
+            }
+            else
+            {
+                spriteRenderer.sprite = leftSprite;
+            }
+
+            // Rotate the object to face the movement direction, correcting for Unity's coordinate system
+            if (rotatingObject != null)
+            {
+                rotatingObject.rotation = Quaternion.Euler(0, 0, angle - 90f);
+            }
         }
     }
 }

@@ -53,7 +53,6 @@ public class Bow_Attack : MonoBehaviour
         if (usingGamepad) // 스틱을 움직일 때만 회전
         {
             Vector3 direction = new Vector3(gamepadInput.x, 0, gamepadInput.y);
-
             if (direction != Vector3.zero)
             {
                 targetObject.rotation = Quaternion.LookRotation(direction);
@@ -76,10 +75,5 @@ public class Bow_Attack : MonoBehaviour
         GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowSpawnPoint.rotation);
         Rigidbody rb = arrow.GetComponent<Rigidbody>();
         rb.velocity = arrowSpawnPoint.forward * arrowSpeed; // 화살을 지정된 속도로 발사
-    }
-
-    private void Update()
-    {
-        // 추가적인 처리가 필요하다면 여기에 넣습니다.
     }
 }
