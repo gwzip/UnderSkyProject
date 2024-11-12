@@ -1,17 +1,19 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Arrow : MonoBehaviour
 {
     private float damage;
     private float range;
-    private float speed = 10f; // 화살 속도
+    private float speed; // 속도를 이제 SetProperties에서 받습니다
     private Vector3 startPosition;
     private bool hasHit; // 충돌 여부를 체크하는 변수
 
-    public void SetProperties(float damage, float range)
+    public void SetProperties(float damage, float range, float speed)
     {
         this.damage = damage;
         this.range = range;
+        this.speed = speed; // 속도를 설정
         startPosition = transform.position;
     }
 

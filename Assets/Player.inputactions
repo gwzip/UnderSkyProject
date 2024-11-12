@@ -96,7 +96,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Interaction",
+                    "name": "Interact",
                     "type": "Button",
                     "id": "0bdb80ea-c69a-4af6-bd7a-d38979255605",
                     "expectedControlType": "Button",
@@ -465,7 +465,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse;Gamepad",
-                    "action": "Interaction",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -476,7 +476,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Interaction",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

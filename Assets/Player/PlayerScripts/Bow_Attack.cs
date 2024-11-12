@@ -7,11 +7,13 @@ public class Bow_Attack : MonoBehaviour
     public GameObject arrowPrefab; // 화살 프리팹
     public Transform firePoint; // 화살이 발사될 위치
 
-    public float maxChargeTime = 1f; // 최대 충전 시간
+    public float maxChargeTime = 2f; // 최대 충전 시간
     public float minDamage = 10f;    // 최소 대미지
     public float maxDamage = 30f;    // 최대 대미지
     public float minRange = 5f;      // 최소 사거리
     public float maxRange = 15f;     // 최대 사거리
+    public float minSpeed = 10f;     // 최소 속도
+    public float maxSpeed = 30f;     // 최대 속도
 
     private float chargeTime;
     private bool isCharging;
@@ -45,7 +47,7 @@ public class Bow_Attack : MonoBehaviour
             chargeTime += Time.deltaTime;
             if (chargeTime > maxChargeTime)
             {
-                chargeTime = maxChargeTime; // 최대 1초까지만 충전
+                chargeTime = maxChargeTime;
             }
 
             Debug.Log("Charging: " + chargeTime); // 차징 상태 확인
@@ -61,13 +63,14 @@ public class Bow_Attack : MonoBehaviour
 
     private void ReleaseBow()
     {
-        if (!isCharging) return; // 차징 상태가 아닐 때는 실행하지 않음
+        if (!isCharging) return;
 
         isCharging = false;
 
-        // 대미지와 사거리를 충전 시간에 따라 계산
+        // 대미지, 사거리, 속도를 충전 시간에 따라 계산
         float damage = Mathf.Lerp(minDamage, maxDamage, chargeTime / maxChargeTime);
         float range = Mathf.Lerp(minRange, maxRange, chargeTime / maxChargeTime);
+        float speed = Mathf.Lerp(minSpeed, maxSpeed, chargeTime / maxChargeTime);
 
         // 화살 생성 및 초기화
         if (arrowPrefab != null && firePoint != null)
@@ -77,8 +80,8 @@ public class Bow_Attack : MonoBehaviour
 
             if (arrowScript != null)
             {
-                arrowScript.SetProperties(damage, range); // 대미지와 사거리 설정
-                Debug.Log("Arrow fired with damage: " + damage + " and range: " + range);
+                arrowScript.SetProperties(damage, range, speed); // 대미지, 사거리, 속도 설정
+                Debug.Log("Arrow fired with damage: " + damage + ", range: " + range + ", and speed: " + speed);
             }
             else
             {
