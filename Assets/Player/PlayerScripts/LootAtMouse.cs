@@ -66,7 +66,7 @@ public class LookAtMouse : MonoBehaviour
             Vector3 direction = (worldPosition - transform.position).normalized;
 
             // 각도 계산
-            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg - 90f; // 90도 보정
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg; // 90도 보정
 
             // 오브젝트 회전 적용
             transform.rotation = Quaternion.Euler(0, 0, angle);

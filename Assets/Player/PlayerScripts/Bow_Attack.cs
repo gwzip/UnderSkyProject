@@ -1,79 +1,95 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Bow_Attack : MonoBehaviour
 {
-    [SerializeField] private Transform targetObject; // 방향을 설정할 오브젝트 (화살표 등)
-    [SerializeField] private Camera mainCamera; // 메인 카메라
-    [SerializeField] private GameObject arrowPrefab; // 발사할 화살 프리팹
-    [SerializeField] private Transform arrowSpawnPoint; // 화살이 발사될 위치
-    [SerializeField] private float arrowSpeed = 20f; // 화살 속도
+    public InputAction bowAttackAction; // 인스펙터에서 매핑을 위한 InputAction
+    public GameObject arrowPrefab; // 화살 프리팹
+    public Transform firePoint; // 화살이 발사될 위치
 
-    private Vector2 gamepadInput; // 스틱 입력 값 저장용
-    private bool usingGamepad; // 현재 스틱을 사용 중인지 확인
+    public float maxChargeTime = 1f; // 최대 충전 시간
+    public float minDamage = 10f;    // 최소 대미지
+    public float maxDamage = 30f;    // 최대 대미지
+    public float minRange = 5f;      // 최소 사거리
+    public float maxRange = 15f;     // 최대 사거리
 
-    private void Start()
+    private float chargeTime;
+    private bool isCharging;
+
+    private void Awake()
     {
-        if (mainCamera == null)
+        if (bowAttackAction == null)
         {
-            mainCamera = Camera.main; // 메인 카메라 자동 할당
+            bowAttackAction = new InputAction(type: InputActionType.Button, binding: "<Mouse>/leftButton");
         }
     }
 
-    // 마우스 포인터 위치에 따라 회전
-    public void OnMouseAim(InputValue value)
+    private void OnEnable()
     {
-        if (!usingGamepad) // 스틱 입력 중이 아닐 때만 작동
+        bowAttackAction.Enable();
+        bowAttackAction.started += ctx => StartCharging();
+        bowAttackAction.canceled += ctx => ReleaseBow();
+    }
+
+    private void OnDisable()
+    {
+        bowAttackAction.Disable();
+        bowAttackAction.started -= ctx => StartCharging();
+        bowAttackAction.canceled -= ctx => ReleaseBow();
+    }
+
+    private void Update()
+    {
+        if (isCharging)
         {
-            Vector2 mousePosition = value.Get<Vector2>();
-
-            // 스크린 좌표 -> 월드 좌표로 변환
-            Ray ray = mainCamera.ScreenPointToRay(mousePosition);
-            if (Physics.Raycast(ray, out RaycastHit hitInfo))
+            chargeTime += Time.deltaTime;
+            if (chargeTime > maxChargeTime)
             {
-                Vector3 direction = hitInfo.point - targetObject.position;
-                direction.y = 0; // 수평 회전만 적용
+                chargeTime = maxChargeTime; // 최대 1초까지만 충전
+            }
 
-                if (direction != Vector3.zero)
-                {
-                    targetObject.rotation = Quaternion.LookRotation(direction);
-                }
+            Debug.Log("Charging: " + chargeTime); // 차징 상태 확인
+        }
+    }
+
+    private void StartCharging()
+    {
+        isCharging = true;
+        chargeTime = 0f;
+        Debug.Log("Started charging.");
+    }
+
+    private void ReleaseBow()
+    {
+        if (!isCharging) return; // 차징 상태가 아닐 때는 실행하지 않음
+
+        isCharging = false;
+
+        // 대미지와 사거리를 충전 시간에 따라 계산
+        float damage = Mathf.Lerp(minDamage, maxDamage, chargeTime / maxChargeTime);
+        float range = Mathf.Lerp(minRange, maxRange, chargeTime / maxChargeTime);
+
+        // 화살 생성 및 초기화
+        if (arrowPrefab != null && firePoint != null)
+        {
+            GameObject arrow = Instantiate(arrowPrefab, firePoint.position, firePoint.rotation);
+            Arrow arrowScript = arrow.GetComponent<Arrow>();
+
+            if (arrowScript != null)
+            {
+                arrowScript.SetProperties(damage, range); // 대미지와 사거리 설정
+                Debug.Log("Arrow fired with damage: " + damage + " and range: " + range);
+            }
+            else
+            {
+                Debug.LogWarning("Arrow prefab does not have an Arrow component attached.");
             }
         }
-    }
-
-    // 게임패드의 오른쪽 스틱 입력을 처리
-    public void OnGamepadAim(InputValue value)
-    {
-        gamepadInput = value.Get<Vector2>();
-        usingGamepad = gamepadInput != Vector2.zero; // 스틱을 움직일 때만 true
-
-        if (usingGamepad) // 스틱을 움직일 때만 회전
+        else
         {
-            Vector3 direction = new Vector3(gamepadInput.x, 0, gamepadInput.y);
-            if (direction != Vector3.zero)
-            {
-                targetObject.rotation = Quaternion.LookRotation(direction);
-            }
+            Debug.LogWarning("Arrow prefab or fire point is not assigned.");
         }
-    }
 
-    // 공격 입력 처리
-    public void OnAttack(InputValue value)
-    {
-        if (value.isPressed) // 공격 입력이 감지되면
-        {
-            FireArrow();
-        }
-    }
-
-    // 화살 발사 로직
-    private void FireArrow()
-    {
-        GameObject arrow = Instantiate(arrowPrefab, arrowSpawnPoint.position, arrowSpawnPoint.rotation);
-        Rigidbody rb = arrow.GetComponent<Rigidbody>();
-        rb.velocity = arrowSpawnPoint.forward * arrowSpeed; // 화살을 지정된 속도로 발사
+        chargeTime = 0f;
     }
 }

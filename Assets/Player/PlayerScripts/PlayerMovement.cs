@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     public Vector2 inputVec;
+    public Vector2 lastDirection = Vector2.down; // 마지막 방향, 기본은 아래쪽
     public float speed;
     public float dashSpeed;
     public float dashDuration;
@@ -22,7 +23,7 @@ public class PlayerMovement : MonoBehaviour
     public Sprite leftSprite;
     public Sprite rightSprite;
 
-    // Reference to the object that should rotate with the player's direction
+    // 회전할 대상 오브젝트
     public Transform rotatingObject;
 
     private void Awake()
@@ -91,14 +92,22 @@ public class PlayerMovement : MonoBehaviour
         if (!isDashing)
         {
             inputVec = value.Get<Vector2>();
+
+            // 입력 벡터가 0이 아닌 경우 마지막 방향 업데이트
+            if (inputVec != Vector2.zero)
+            {
+                lastDirection = inputVec.normalized;
+            }
         }
     }
 
     void UpdateSpriteDirection()
     {
-        if (inputVec != Vector2.zero)
+        Vector2 direction = inputVec != Vector2.zero ? inputVec : lastDirection;
+
+        if (direction != Vector2.zero)
         {
-            float angle = Mathf.Atan2(inputVec.y, inputVec.x) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
             if (angle >= -45f && angle < 45f)
             {
@@ -117,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
                 spriteRenderer.sprite = leftSprite;
             }
 
-            // Rotate the object to face the movement direction, correcting for Unity's coordinate system
+            // 회전할 대상 오브젝트를 이동 방향으로 회전시킴
             if (rotatingObject != null)
             {
                 rotatingObject.rotation = Quaternion.Euler(0, 0, angle - 90f);

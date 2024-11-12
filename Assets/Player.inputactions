@@ -461,7 +461,7 @@
                 {
                     "name": "",
                     "id": "bfe43d7d-8b51-4bf6-8de6-33c29c6be3d6",
-                    "path": "",
+                    "path": "<Keyboard>/f",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse;Gamepad",
@@ -472,7 +472,7 @@
                 {
                     "name": "",
                     "id": "5f05e67e-bdb0-4d73-80c8-84ad7c7edecd",
-                    "path": "",
+                    "path": "<Gamepad>/rightShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
