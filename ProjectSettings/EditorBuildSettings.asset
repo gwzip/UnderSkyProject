@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/tile.unity
     guid: f50538f1fa09a9143955b45e2c3067bc
   - enabled: 1
-    path: Assets/Scenes/TutorialScene.unity
+    path: Assets/Scenes/TowerInside.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
     path: Assets/Scenes/MainScene.unity

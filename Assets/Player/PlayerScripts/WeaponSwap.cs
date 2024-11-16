@@ -5,56 +5,73 @@ using UnityEngine.InputSystem;
 
 public class WeaponSwap : MonoBehaviour
 {
-    public List<GameObject> weapons;
+    public List<GameObject> weapons; // 무기 리스트
     private int currentWeaponIndex = 0;
 
-    public InputAction changeWeaponAction; // New Input System action for swapping
+    public InputAction changeWeaponAction; // 무기 변경 입력 액션
 
     void OnEnable()
     {
         changeWeaponAction.Enable();
-        changeWeaponAction.performed += ctx => SwapWeapon();
+        changeWeaponAction.performed += OnSwapWeapon;
     }
 
     void OnDisable()
     {
-        changeWeaponAction.performed -= ctx => SwapWeapon();
+        changeWeaponAction.performed -= OnSwapWeapon;
         changeWeaponAction.Disable();
     }
 
     void Start()
     {
+        // 무기 리스트에 무기가 있을 경우 첫 번째 무기를 활성화
         if (weapons.Count > 0)
         {
             ActivateWeapon(currentWeaponIndex);
         }
-    }
-    public void Change(InputValue value)
-    {
-        if (value.isPressed) // 공격 입력이 감지되면
+        else
         {
-            SwapWeapon();
+            Debug.Log("No weapons available at the start.");
         }
     }
+
+    private void OnSwapWeapon(InputAction.CallbackContext ctx)
+    {
+        SwapWeapon();
+    }
+
     void SwapWeapon()
     {
-        Debug.Log("SwapWeapon called"); // Log to check if the method is called
+        if (weapons.Count <= 1)
+        {
+            Debug.Log("Cannot swap weapons. No additional weapons available.");
+            return; // 무기가 없거나 하나만 있으면 무기 변경 불가
+        }
+
+        // 무기 변경 로직
         currentWeaponIndex++;
         if (currentWeaponIndex >= weapons.Count)
         {
-            currentWeaponIndex = 0; // Loop back to the first weapon
+            currentWeaponIndex = 0; // 무기 인덱스를 루프
         }
 
         ActivateWeapon(currentWeaponIndex);
-        Debug.Log("Current weapon index: " + currentWeaponIndex); // Log the current weapon index
+        Debug.Log($"Swapped to weapon index: {currentWeaponIndex}");
     }
 
     void ActivateWeapon(int index)
     {
+        if (weapons.Count == 0)
+        {
+            Debug.LogWarning("No weapons to activate.");
+            return;
+        }
+
         for (int i = 0; i < weapons.Count; i++)
         {
-            weapons[i].SetActive(i == index);
+            weapons[i].SetActive(i == index); // 현재 무기만 활성화
         }
-        Debug.Log("Activated weapon: " + weapons[index].name); // Log the name of the activated weapon
+
+        Debug.Log($"Activated weapon: {weapons[index].name}");
     }
 }
