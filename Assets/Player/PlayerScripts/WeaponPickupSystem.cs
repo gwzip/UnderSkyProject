@@ -11,6 +11,7 @@ public class WeaponPickupSystem : MonoBehaviour
 
     private bool isInPickupZone = false; // 플레이어가 특정 구역에 있는지 여부
     private WeaponSwap weaponSwap; // WeaponSwap 스크립트를 참조
+    public List<GameObject> collectedWeapons = new List<GameObject>(); // 수집된 무기 리스트
 
     void OnEnable()
     {
@@ -72,8 +73,18 @@ public class WeaponPickupSystem : MonoBehaviour
     {
         // WeaponSwap의 weapons 리스트에 새 무기를 추가
         weaponSwap.weapons.Add(weaponToUnlock);
-        Debug.Log("New weapon unlocked: " + weaponToUnlock.name);
+
+        // 수집된 무기 리스트에 추가
+        collectedWeapons.Add(weaponToUnlock);
+
+        Debug.Log("New weapon unlocked and added to collection: " + weaponToUnlock.name);
 
         weaponToUnlock = null; // 무기를 한 번 획득하면 더 이상 획득 불가
+    }
+
+    public List<GameObject> GetCollectedWeapons()
+    {
+        // 수집된 무기 리스트 반환
+        return collectedWeapons;
     }
 }
