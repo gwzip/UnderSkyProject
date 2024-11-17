@@ -3,54 +3,86 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Sword_Attack : MonoBehaviour
+public class Sword_Attack : MonoBehaviour, IWeapon
 {
-    public float attackRange = 1f;       // 공격 범위
-    public float attackRadius = 0.5f;    // 공격 범위 반지름
-    public LayerMask enemyLayer;         // 적 레이어 지정
-    public int attackDamage = 10;        // 공격 데미지
-    public float attackCooldown = 0.5f;  // 공격 쿨다운 시간
-    private bool canAttack = true;       // 공격 가능 여부
+    public float attackRange = 0.5f;
+    public float attackRadius = 0.1f;
+    public LayerMask enemyLayer;
+    public int attackDamage = 10;
+    public float attackCooldown = 0.5f;
+    public GameObject attackEffect; // 공격 시 나타나는 효과 오브젝트
 
-    private PlayerMovement playerMovement;  // PlayerMovement 스크립트 참조
+    public InputAction attackAction; // 공격 입력 액션
+    private bool canAttack = true;
+
+    private PlayerMovement playerMovement;
     private Animator animator;
 
     private void Awake()
     {
         playerMovement = GetComponent<PlayerMovement>();
         animator = GetComponent<Animator>();
-    }
 
-    void OnAttack(InputValue value)
-    {
-        if (value.isPressed && canAttack)
+        // 시작할 때 공격 효과 비활성화
+        if (attackEffect != null)
         {
-            Debug.Log("Attack!!!");
-            Attack();
+            attackEffect.SetActive(false);
         }
     }
 
-    void Attack()
+    private void OnEnable()
     {
-        Vector2 attackDirection = playerMovement.inputVec;  // 이동 방향을 기반으로 공격 방향 설정
+        attackAction.Enable();
+        attackAction.performed += OnAttack; // OnAttack 메서드에 액션 할당
+    }
 
+    private void OnDisable()
+    {
+        attackAction.Disable();
+        attackAction.performed -= OnAttack;
+    }
+
+    private void OnAttack(InputAction.CallbackContext context)
+    {
+        if (canAttack)
+        {
+            Use();
+        }
+    }
+
+    public void Use()
+    {
+        if (canAttack)
+        {
+            Vector2 attackDirection = GetFacingDirection();
+            if (attackDirection == Vector2.zero)
+            {
+                Debug.LogWarning("Attack direction is zero. Ensure GetFacingDirection() returns a valid direction.");
+                return;
+            }
+            Attack(attackDirection);
+            Debug.Log("Attack!!!");
+        }
+    }
+
+    Vector2 GetFacingDirection()
+    {
+        if (playerMovement != null)
+        {
+            if (playerMovement.inputVec != Vector2.zero)
+            {
+                return playerMovement.inputVec.normalized;
+            }
+            return playerMovement.lastDirection; // 입력이 없을 때 마지막 방향을 사용
+        }
+        return Vector2.down; // playerMovement가 없을 경우 기본적으로 아래 방향을 반환
+    }
+
+    void Attack(Vector2 attackDirection)
+    {
         if (attackDirection != Vector2.zero)
         {
-            canAttack = false;  // 공격 중에는 추가 공격을 하지 않도록 설정
-
-            // 공격할 위치 계산 (현재 위치에서 공격 방향으로 일정 거리만큼 떨어진 곳)
-            Vector2 attackPosition = (Vector2)transform.position + attackDirection.normalized * attackRange;
-
-            // 범위 내의 적들을 검출 (원형 범위로 공격 범위를 설정)
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(attackPosition, attackRadius, enemyLayer);
-
-            // 범위 내에 있는 모든 적들에게 데미지 주기
-            //foreach (Collider2D enemy in hitEnemies)
-            //{
-            //    enemy.GetComponent<Enemy>().TakeDamage(attackDamage);
-            //}
-
-            // 공격 애니메이션 재생
+            canAttack = false;
             if (animator != null)
             {
                 if (attackDirection == Vector2.up)
@@ -69,26 +101,45 @@ public class Sword_Attack : MonoBehaviour
                 {
                     animator.Play("Attack_Right");
                 }
+                else
+                {
+                    Debug.LogWarning("Attack direction is not aligned with primary axes. Verify logic.");
+                }
             }
 
-            // 일정 시간 후 다시 공격 가능하도록 설정
+            // 공격 효과 오브젝트 활성화
+            if (attackEffect != null)
+            {
+                attackEffect.SetActive(true);
+            }
+
             StartCoroutine(AttackCooldown());
+
+            // 공격 효과가 끝난 후 비활성화
+            StartCoroutine(DisableAttackEffect());
         }
     }
 
-    // 공격 쿨다운 시간 설정
     IEnumerator AttackCooldown()
     {
         yield return new WaitForSeconds(attackCooldown);
         canAttack = true;
     }
 
-    // 공격 범위 시각화를 위한 디버그용 함수
+    IEnumerator DisableAttackEffect()
+    {
+        yield return new WaitForSeconds(attackCooldown); // 공격 지속 시간 동안 대기
+        if (attackEffect != null)
+        {
+            attackEffect.SetActive(false); // 공격이 끝나면 비활성화
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
-        if (playerMovement != null && playerMovement.inputVec != Vector2.zero)
+        if (playerMovement != null && GetFacingDirection() != Vector2.zero)
         {
-            Vector2 attackPosition = (Vector2)transform.position + playerMovement.inputVec.normalized * attackRange;
+            Vector2 attackPosition = (Vector2)transform.position + GetFacingDirection().normalized * attackRange;
             Gizmos.DrawWireSphere(attackPosition, attackRadius);
         }
     }

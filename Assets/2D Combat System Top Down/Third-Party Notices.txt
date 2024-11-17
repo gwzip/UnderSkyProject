@@ -1,0 +1,81 @@
+﻿Files under Assets/2D Combat System Top Down/Other/ folder and Assets/2D Combat System Top Down/Sound are third party files under their own respective licenses:
+
+Assets/Other/Fonts/superstar: https://www.dafont.com/search.php?q=superstar
+
+Superstar. A gem sticker based typeface.
+I actually got the design from actual
+stickers like this, so...
+
+...anyways, here are the charsets.  
+
+✂┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+
+Original Style Charset
+(superstarorig_memesbruh03.ttf):
+
+A B C D E F G H I J K L M N O P Q R S T
+U V W X Y Z a b c d e f g h i j k l m n
+o p q r s t u v w x y z    
+
+✂┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+
+MB03 Style Charset
+(superstar_memesbruh03.ttf):
+
+! " # $ % & ' ( ) * + , - . / 0 1 2 3 4
+5 6 7 8 9 : ; < = > ? @ A B C D E F G H
+I J K L M N O P Q R S T U V W X Y Z [ \
+] ^ _ ` a b c d e f g h i j k l m n o p
+q r s t u v w x y z { | } ~   ¡ ¢ £ ¤ ¥
+¦ § ¨ © ª « ¬ ® ¯ ° ± ² ³ ´ µ ¶ · ¸ ¹ º
+» ¼ ½ ¾ ¿ À Á Â Ã Ä Å Æ Ç È É Ê Ë Ì Í Î
+Ï Ð Ñ Ò Ó Ô Õ Ö × Ø Ù Ú Û Ü Ý Þ ß à á â
+ã ä å æ ç è é ê ë ì í î ï ð ñ ò ó ô õ ö
+÷ ø ù ú û ü ý þ ÿ Ā ā Ă ă Ą ą Ć ć Ĉ ĉ Ċ
+ċ Č č Ď ď Đ đ Ē ē Ĕ ĕ Ė ė Ę ę Ě ě Ĝ ĝ Ğ
+ğ Ġ ġ Ģ ģ Ĥ ĥ Ħ ħ Ĩ ĩ Ī ī Ĭ ĭ Į į İ ı Ĳ
+ĳ Ĵ ĵ Ķ ķ ĸ Ĺ ĺ Ļ ļ Ľ ľ Ŀ ŀ Ł ł Ń ń Ņ ņ
+Ň ň ŉ Ŋ ŋ Ō ō Ŏ ŏ Ő ő Œ œ Ŕ ŕ Ŗ ŗ Ř ř Ś
+ś Ŝ ŝ Ş ş Š š Ţ ţ Ť ť Ŧ ŧ Ũ ũ Ū ū Ŭ ŭ Ů
+ů Ű ű Ų ų Ŵ ŵ Ŷ ŷ Ÿ Ź ź Ż ż Ž ž ſ ƒ Ǻ ǻ
+Ǽ ǽ Ǿ ǿ Ș ș Ț ț ȷ ˆ ˇ ˉ ˘ ˙ ˚ ˛ ˜ ˝ ; ΄
+΅ Ά · Έ Ή Ί Ό Ύ Ώ ΐ Α Β Γ Δ Ε Ζ Η Θ Ι Κ
+Λ Μ Ν Ξ Ο Π Ρ Σ Τ Υ Φ Χ Ψ Ω Ϊ Ϋ ά έ ή ί
+ΰ α β γ δ ε ζ η θ ι κ λ μ ν ξ ο π ρ ς σ
+τ υ φ χ ψ ω ϊ ϋ ό ύ ώ Ё Ђ Ѓ Є Ѕ І Ї Ј Љ
+Њ Ћ Ќ Ў Џ А Б В Г Д Е Ж З И Й К Л М Н О
+П Р С Т У Ф Х Ц Ч Ш Щ Ъ Ы Ь Э Ю Я а б в
+г д е ж з и й к л м н о п р с т у ф х ц
+ч ш щ ъ ы ь э ю я ё ђ ѓ є ѕ і ї ј љ њ ћ
+ќ ў џ Ґ ґ Ẁ ẁ Ẃ ẃ Ẅ ẅ Ỳ ỳ ‐ – — ― ‗ ‘ ’
+‚ ‛ “ ” „ † ‡ • … ‰ ′ ″ ‹ › ‼ ‾ ⁄ ⁰ ⁴ ⁵
+⁶ ⁷ ⁸ ⁹ ⁿ ₀ ₁ ₂ ₃ ₄ ₅ ₆ ₇ ₈ ₉ ₣ ₤ ₧ € ₸
+₹₺ ₻ ₼ ₽ ₾ ℅ ℓ № ℠ ™ Ω ℮⅛ ⅜ ⅝ ⅞ ∂ ∆ ∏
+∑ − ∕ ∙ √ ∞ ∫ ≈ ≠ ≤ ≥ ⋲─ │ ┌ ┐ └ ┘ □ ▪
+▫ ◊ ● ◦ ♪ 　ﬁ ﬂ
+
+✂┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+
+NOTE: It is highly recommended to use the
+      MB03 version
+      (superstar_memesbruh03.ttf) for
+      your own work.
+
+NOTE: These fonts are 100% free for
+      personal AND commercial use. This
+      applies to all other fonts made by
+      me (memesbruh03).
+
+      That's right. No need to ask me for
+      permission to use this. Feel free
+      to use this for anything you want!
+
+✂┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈┈
+
+© 2018 memesbruh03
+  https://memesbruh03.neocities.org/
+  aaronchand84@gmail.com
+
+
+  Assets/2D Combat System Top Down/Sound/Any:
+  These assets are created by me and are 100% free for personal or commercial use!

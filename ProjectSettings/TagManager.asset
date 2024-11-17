@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Collection
   layers:
   - Default
   - TransparentFX
@@ -13,18 +14,18 @@ TagManager:
   - UI
   - 
   - 
+  - Weapon
+  - Projectile
+  - Entity
+  - Player
+  - Collectable
+  - Solid
+  - Sword
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Trap
   - 
   - 
   - 
